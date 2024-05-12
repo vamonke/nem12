@@ -9,7 +9,7 @@ export interface Nem12File {
 }
 
 export interface Nem12Header {
-  recordIndicator: number;
+  recordIndicator: number; // 100
   versionHeader: string;
   dateTime: Date;
   fromParticipant: string;
@@ -17,7 +17,7 @@ export interface Nem12Header {
 }
 
 export interface Nem12NMIDataDetails {
-  recordIndicator: number;
+  recordIndicator: number; // 200
   nmi: string;
   nmiConfiguration: string;
   registerId: string;
@@ -31,20 +31,20 @@ export interface Nem12NMIDataDetails {
 }
 
 export interface Nem12IntervalData {
-  recordIndicator: number;
+  recordIndicator: number; // 300
   intervalDate: Date;
   intervalValues: number[];
-  qualityMethod: string;
-  reasonCode: number;
-  reasonDescription: string;
-  updateDateTime: Date;
-  msatsLoadDateTime: Date;
+  qualityMethod?: string;
+  reasonCode?: number;
+  reasonDescription?: string;
+  updateDateTime?: Date;
+  msatsLoadDateTime?: Date;
   intervalEvents: Nem12IntervalEvent[];
   b2bDetails: Nem12B2BDetails[];
 }
 
 export interface Nem12IntervalEvent {
-  recordIndicator: number;
+  recordIndicator: number; // 400
   startInterval: number;
   endInterval: number;
   qualityMethod: string;
@@ -53,7 +53,7 @@ export interface Nem12IntervalEvent {
 }
 
 export interface Nem12B2BDetails {
-  recordIndicator: number;
+  recordIndicator: number; // 500
   transCode: string;
   retServiceOrder: string;
   readDateTime: Date;
@@ -61,5 +61,5 @@ export interface Nem12B2BDetails {
 }
 
 export interface Nem12End {
-  recordIndicator: number;
+  recordIndicator: number; // 900
 }
