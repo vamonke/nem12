@@ -1,4 +1,4 @@
-export const csvString = `100,NEM12,200506081149,UNITEDDP,NEMMCO
+export const nem12CsvString = `100,NEM12,200506081149,UNITEDDP,NEMMCO
 200,NEM1201009,E1E2,1,E1,N1,01009,kWh,30,20050610
 300,20050301,0,0,0,0,0,0,0,0,0,0,0,0,0.461,0.810,0.568,1.234,1.353,1.507,1.344,1.773,0
 300,20050302,0,0,0,0,0,0,0,0,0,0,0,0,0.235,0.567,0.890,1.123,1.345,1.567,1.543,1.234,0
@@ -17,11 +17,11 @@ export const csvString = `100,NEM12,200506081149,UNITEDDP,NEMMCO
 500,O,S01009,20050310121004,
 900`;
 
-const result = {
+export const nem12File = {
   header: {
     recordIndicator: 100,
     versionHeader: "NEM12",
-    dateTime: 200506081149,
+    dateTime: new Date("2005-06-08T11:49"),
     fromParticipant: "UNITEDDP",
     toParticipant: "NEMMCO",
   },
@@ -42,28 +42,8 @@ const result = {
           recordIndicator: 300,
           intervalDate: 20050301,
           intervalValues: [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0.461,
-            0.810,
-            0.568,
-            1.234,
-            1.353,
-            1.507,
-            1.344,
-            1.773,
-            0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.461, 0.81, 0.568, 1.234,
+            1.353, 1.507, 1.344, 1.773, 0,
           ],
           qualityMethod: "0",
           reasonCode: 0,
