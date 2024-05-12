@@ -1,3 +1,4 @@
+import { RECORD_INDICATOR } from "@/constants";
 import {
   Nem12End,
   Nem12File,
@@ -114,6 +115,44 @@ export class Nem12Parser implements StringParser<Nem12File> {
     const [recordIndicator] = line.split(",");
     return {
       recordIndicator: parseInt(recordIndicator),
+    };
+  }
+
+  /**
+   * Parses a NEM12 CSV string.
+   *
+   * @param string The NEM12 CSV string.
+   *
+   * @returns A Nem12File object
+   *
+   * @throws {Error} If the provided content is not in the expected format.
+   */
+  static parseCsv(string: string): Nem12File {
+    const lines = string.split("\n");
+
+    const header = Nem12Parser.parseHeader(lines[0]);
+    const end = Nem12Parser.parseEnd(lines[lines.length - 1]);
+
+    const nmiData = [];
+    let i = 1;
+    while (i < lines.length) {
+      if (lines[i].startsWith(RECORD_INDICATOR.NMI_DATA_DETAILS)) {
+        nmiData.push(Nem12Parser.parseNmiDataDetails(lines[i]));
+      } else if (lines[i].startsWith(RECORD_INDICATOR.INTERVAL_DATA)) {
+        nmiData[nmiData.length - 1].intervalData.push(
+          Nem12Parser.parseIntervalData(
+            lines[i],
+            nmiData[nmiData.length - 1].intervalLength
+          )
+        );
+      }
+      i++;
+    }
+
+    return {
+      header,
+      data: nmiData,
+      end,
     };
   }
 }

@@ -79,4 +79,9 @@ describe("Nem12Parser", () => {
       recordIndicator: 900,
     });
   });
+
+  it("should parse a NEM12 file", () => {
+    const parsed = Nem12Parser.parseCsv(nem12CsvString);
+    expect(parsed).toEqual(nem12File);
+  });
 });
