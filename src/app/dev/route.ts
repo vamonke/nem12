@@ -1,12 +1,11 @@
 import { Nem12Parser } from "@/utils/Parser";
-import { nem12CsvString } from "@/utils/examples";
+import { nem12DataString } from "@/utils/examples";
 
 export const dynamic = "force-dynamic"; // defaults to auto
 
 export async function GET() {
-  const nem12File = Nem12Parser.parse(nem12CsvString);
-  console.log(nem12File);
-  return new Response(JSON.stringify(nem12File), {
+  const nem12Data = "WIP";
+  return new Response(JSON.stringify(nem12Data), {
     headers: {
       "content-type": "application/json",
     },
