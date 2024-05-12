@@ -4,8 +4,8 @@ export interface StringParser<T> {
 
 export interface Nem12File {
   header: Nem12Header;
-  data: Nem12NMIDataDetails[];
-  footer: Nem12End;
+  data: Nem12NmiDataDetails[];
+  end: Nem12End;
 }
 
 export interface Nem12Header {
@@ -16,7 +16,7 @@ export interface Nem12Header {
   toParticipant: string;
 }
 
-export interface Nem12NMIDataDetails {
+export interface Nem12NmiDataDetails {
   recordIndicator: number; // 200
   nmi: string;
   nmiConfiguration: string;
@@ -39,8 +39,8 @@ export interface Nem12IntervalData {
   reasonDescription?: string;
   updateDateTime?: Date;
   msatsLoadDateTime?: Date;
-  intervalEvents: Nem12IntervalEvent[];
-  b2bDetails: Nem12B2BDetails[];
+  intervalEvents?: Nem12IntervalEvent[];
+  b2bDetails?: Nem12B2bDetails[];
 }
 
 export interface Nem12IntervalEvent {
@@ -52,7 +52,7 @@ export interface Nem12IntervalEvent {
   reasonDescription: string;
 }
 
-export interface Nem12B2BDetails {
+export interface Nem12B2bDetails {
   recordIndicator: number; // 500
   transCode: string;
   retServiceOrder: string;

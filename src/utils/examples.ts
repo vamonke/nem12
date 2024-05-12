@@ -15,11 +15,11 @@ export const nem12DataString = `200,NEM1201009,E1E2,1,E1,N1,01009,kWh,30,2005061
 300,20050304,0,0,0,0,0,0,0,0,0,0,0,0,0.461,0.415,0.778,0.940,1.191,1.345,1.390,1.222,1
 0050310121004,
 500,O,S01009,20050310121004`;
-export const nem12FooterString = "900";
+export const nem12EndString = "900";
 
 export const nem12CsvString = `${nem12HeaderString}
 ${nem12DataString}
-${nem12FooterString}`;
+${nem12EndString}`;
 
 export const nem12File = {
   header: {
@@ -81,5 +81,5 @@ export const nem12File = {
     },
     // ...
   ],
-  footer: {},
+  end: {},
 };

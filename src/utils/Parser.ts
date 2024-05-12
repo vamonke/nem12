@@ -3,17 +3,21 @@ import {
   Nem12File,
   Nem12Header,
   Nem12IntervalData,
-  Nem12NMIDataDetails,
+  Nem12NmiDataDetails,
   StringParser,
 } from "../types";
 import { parseDate12, parseDate8 } from "./parseDate";
 
 export class Nem12Parser implements StringParser<Nem12File> {
   /**
-   * Parse the NEM12 file header
-   * @param line - The NEM12 file header line
-   * @returns The parsed NEM12 header
-   * @throws Error if the header line is invalid
+   * Parses a NEM12 header line.
+   *
+   * @param line The header line. It is expected to be in the format:
+   *        "recordIndicator,versionHeader,dateTime,fromParticipant,toParticipant"
+   *
+   * @returns A Nem12Header object
+   *
+   * @throws {Error} If the provided line is not in the expected format.
    */
   static parseHeader(line: string): Nem12Header {
     const [
@@ -33,12 +37,16 @@ export class Nem12Parser implements StringParser<Nem12File> {
   }
 
   /**
-   * Parse the NEM12 file data details
-   * @param lines - The NEM12 file data details lines
-   * @returns The parsed NEM12 data details
-   * @throws Error if the data details lines are invalid
+   * Parses a NEM12 NMI data details record.
+   *
+   * @param line The NMI data details line. It is expected to be in the format:
+   *       "recordIndicator,nmi,nmiConfiguration,registerId,nmiSuffix,mdmDataStreamIdenfier,meterSerialNumber,uom,intervalLength,nextScheduledReadDate"
+   *
+   * @returns A Nem12NmiDataDetails object
+   *
+   * @throws {Error} If the provided line is not in the expected format.
    */
-  static parseDataDetails(line: string): Nem12NMIDataDetails {
+  static parseNmiDataDetails(line: string): Nem12NmiDataDetails {
     const [
       recordIndicator,
       nmi,
@@ -65,35 +73,44 @@ export class Nem12Parser implements StringParser<Nem12File> {
       intervalData: [],
     };
   }
-
   /**
-   * Parse the NEM12 file 30min interval data
-   * @param line - The NEM12 file 30min interval data line
-   * @returns The parsed NEM12 30min interval data
-   * @throws Error if the 30min interval data line is invalid
+   * Parses a NEM12 interval data record.
+   *
+   * @param line The interval data line. It is expected to be in the format:
+   *       "recordIndicator,intervalDate,intervalValue1,intervalValue2,...,intervalValueN"
+   * @param intervalLength The length of each interval in minutes. It is expected to be 5, 15, or 30.
+   *
+   * @returns A Nem12IntervalData object
+   *
+   * @throws {Error} If the provided line is not in the expected format.
    */
-  static parse30IntervalData(line: string): Nem12IntervalData {
+  static parseIntervalData(
+    line: string,
+    intervalLength: number
+  ): Nem12IntervalData {
     const values = line.split(",");
     const recordIndicator = values[0];
     const intervalDate = values[1];
-    const numIntervals = 1440 / 30; // 1440 mins in a day, 30 min intervals
+    const numIntervals = (24 * 60) / intervalLength; // 24 hours * 60 minutes / intervalLength in minutes
     const intervalValues = values.slice(2, 2 + numIntervals);
     return {
       recordIndicator: parseInt(recordIndicator),
       intervalDate: parseDate8(intervalDate),
       intervalValues: intervalValues.map((value) => parseFloat(value)),
-      intervalEvents: [],
-      b2bDetails: [],
     };
   }
 
   /**
-   * Parse the NEM12 file footer
-   * @param content - The NEM12 file footer line
-   * @returns The parsed NEM12 footer
-   * @throws Error if the footer line is invalid
+   * Parses a NEM12 end of data record.
+   *
+   * @param line The end line. It is expected to be in the format:
+   *        "recordIndicator"
+   *
+   * @returns A Nem12End object
+   *
+   * @throws {Error} If the provided line is not in the expected format.
    */
-  static parseFooter(line: string): Nem12End {
+  static parseEnd(line: string): Nem12End {
     const [recordIndicator] = line.split(",");
     return {
       recordIndicator: parseInt(recordIndicator),
