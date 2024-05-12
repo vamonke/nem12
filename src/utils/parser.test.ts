@@ -35,49 +35,41 @@ describe("Nem12Parser", () => {
   });
 
   it("should parse a 30-min interval data record", () => {
+    const values = new Array(48).fill(0).map((_, i) => i / 48);
     const intervalData = Nem12Parser.parseIntervalData(
-      "300,20050301,0,0,0,0,0,0,0,0,0,0,0,0,0.461,0.81,0.568,1.234,1.353,1.507,1.344,1.773",
+      `300,20050301,${values.join(",")}`,
       30
     );
     expect(intervalData).toEqual({
       recordIndicator: 300,
       intervalDate: new Date("2005-03-01T00:00"),
-      intervalValues: [
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.461, 0.81, 0.568, 1.234, 1.353,
-        1.507, 1.344, 1.773,
-      ],
+      intervalValues: values,
     });
   });
 
   it("should parse a 15-min interval record", () => {
+    const values = new Array(96).fill(0).map((_, i) => i / 96);
     const intervalData = Nem12Parser.parseIntervalData(
-      "300,20050301,0,0,0,0,0,0,0,0,0,0,0,0,0.461,0.81,0.568,1.234,1.353,1.507,1.344,1.773,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.461,0.81,0.568,1.234,1.353,1.507,1.344,1.773",
+      `300,20050301,${values.join(",")}`,
       15
     );
     expect(intervalData).toEqual({
       recordIndicator: 300,
       intervalDate: new Date("2005-03-01T00:00"),
-      intervalValues: [
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.461, 0.81, 0.568, 1.234, 1.353,
-        1.507, 1.344, 1.773, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.461,
-        0.81, 0.568, 1.234, 1.353, 1.507, 1.344, 1.773,
-      ],
+      intervalValues: values,
     });
   });
 
   it("should parse a 5-min interval record", () => {
+    const values = new Array(288).fill(0).map((_, i) => i / 288);
     const intervalData = Nem12Parser.parseIntervalData(
-      "300,20050301,0,0,0,0,0,0,0,0,0,0,0,0,0.461,0.81,0.568,1.234,1.353,1.507,1.344,1.773,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0.461,0.81,0.568,1.234,1.353,1.507,1.344,1.773",
+      `300,20050301,${values.join(",")}`,
       5
     );
     expect(intervalData).toEqual({
       recordIndicator: 300,
       intervalDate: new Date("2005-03-01T00:00"),
-      intervalValues: [
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.461, 0.81, 0.568, 1.234, 1.353,
-        1.507, 1.344, 1.773, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.461,
-        0.81, 0.568, 1.234, 1.353, 1.507, 1.344, 1.773,
-      ],
+      intervalValues: values,
     });
   });
 
