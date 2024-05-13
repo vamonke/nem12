@@ -145,11 +145,11 @@ export const nem12FileSmall = {
       meterSerialNumber: "01009",
       uom: "kWh",
       intervalLength: 30,
-      nextScheduledReadDate: new Date("2005-06-10T00:00"),
+      nextScheduledReadDate: new Date("2005-06-10"),
       intervalData: [
         {
           recordIndicator: 300,
-          intervalDate: new Date("2005-03-01T00:00"),
+          intervalDate: new Date("2005-03-01"),
           intervalValues: [0, 0.461, 0.81],
         },
       ],

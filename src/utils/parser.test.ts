@@ -1,6 +1,7 @@
 import { Nem12Parser } from "./Parser";
 import { nem12CsvString, nem12File } from "../sample/examples";
 
+
 describe("Nem12Parser", () => {
   it("should parse a header record", () => {
     const header = Nem12Parser.parseHeader(
