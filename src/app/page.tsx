@@ -1,15 +1,13 @@
 "use client";
-
+import { useState } from "react";
 import { Nem12File } from "@/utils/Nem12File";
 import styles from "./page.module.css";
-import { useState } from "react";
 
 async function parseCSV(file: File) {
   const reader = new FileReader();
   return new Promise<string[]>((resolve, reject) => {
     reader.onload = (event) => {
       const csvData = event.target?.result as string;
-      // const parsedData = csvData.split("\n").map((row) => row.split(","));
       const results = Nem12File.fromCsv(csvData).toSqlInsertStatements();
       resolve(results);
     };

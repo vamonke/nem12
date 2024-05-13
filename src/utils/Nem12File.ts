@@ -1,5 +1,9 @@
-import { Nem12End, Nem12Header, Nem12NmiDataDetails } from "../types";
-import { MeterReading } from "./MeterReading";
+import {
+  Nem12End,
+  Nem12Header,
+  Nem12NmiDataDetails,
+  MeterReading,
+} from "../types";
 import { Nem12Parser } from "./Parser";
 
 export class Nem12File {
@@ -61,7 +65,7 @@ export class Nem12File {
       (reading) =>
         `INSERT INTO meter_readings (nmi, timestamp, value) VALUES ('${
           reading.nmi
-        }', '${reading.timestamp.toISOString()}', ${reading.value});`
+        }', '${reading.timestamp}', ${reading.value});`
     );
   }
 }
