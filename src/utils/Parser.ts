@@ -30,6 +30,11 @@ export class Nem12Parser {
       fromParticipant,
       toParticipant,
     ] = line.split(",");
+
+    if (recordIndicator !== RECORD_INDICATOR.HEADER) {
+      throw new Error("Invalid header record indicator");
+    }
+
     return {
       recordIndicator: parseInt(recordIndicator),
       versionHeader,
@@ -62,6 +67,11 @@ export class Nem12Parser {
       intervalLength,
       nextScheduledReadDate,
     ] = line.split(",");
+
+    if (recordIndicator !== RECORD_INDICATOR.NMI_DATA_DETAILS) {
+      throw new Error("Invalid NMI data details record indicator");
+    }
+
     return {
       recordIndicator: parseInt(recordIndicator),
       nmi,
@@ -93,7 +103,12 @@ export class Nem12Parser {
     intervalLength: number
   ): Nem12IntervalData {
     const values = line.split(",");
+
     const recordIndicator = values[0];
+    if (recordIndicator !== RECORD_INDICATOR.INTERVAL_DATA) {
+      throw new Error("Invalid interval data record indicator");
+    }
+
     const intervalDate = values[1];
     const numIntervals = (24 * 60) / intervalLength; // 24 hours * 60 minutes / intervalLength in minutes
     const intervalValues = values.slice(2, 2 + numIntervals);
