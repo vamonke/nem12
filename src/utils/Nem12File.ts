@@ -55,4 +55,13 @@ export class Nem12File {
 
     return results;
   }
+
+  toSqlInsertStatements() {
+    return this.toMeterReadings().map(
+      (reading) =>
+        `INSERT INTO meter_readings (nmi, timestamp, value) VALUES ('${
+          reading.nmi
+        }', '${reading.timestamp.toISOString()}', ${reading.value});`
+    );
+  }
 }
