@@ -1,5 +1,5 @@
 import { Nem12Parser } from "@/utils/Parser";
-import { nem12DataString } from "@/utils/examples";
+import { nem12DataString } from "@/sample/examples";
 
 export const dynamic = "force-dynamic"; // defaults to auto
 

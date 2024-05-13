@@ -53,3 +53,9 @@ export interface Nem12B2bDetails {
 export interface Nem12End {
   recordIndicator: number; // 900
 }
+
+export interface MeterReading {
+  nmi: string;
+  timestamp: Date;
+  value: number;
+}
