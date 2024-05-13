@@ -28,23 +28,50 @@ export default function Home() {
     if (file) {
       try {
         const parsedData = await parseCSV(file);
-        console.log(parsedData);
         setStatements(parsedData);
       } catch (error) {
         console.error("Error parsing CSV file:", error);
       }
+    } else {
+      console.log("No file selected");
     }
   };
 
+  const output = statements?.join("\n");
+
   return (
     <main className={styles.main}>
-      <section>
-        <div>
-          <input type="file" onChange={handleFileUpload} />
+      <h1>NEM12 CSV Parser</h1>
+      <section className={styles.section}>
+        <div className={styles.actions}>
+          {output ? (
+            <button onClick={() => setStatements(null)}>Clear</button>
+          ) : (
+            <input type="file" onChange={handleFileUpload} />
+          )}
+          {output && ( // copy to clipboard
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(output);
+              }}
+              className={styles.copy}
+            >
+              Copy to Clipboard
+            </button>
+          )}
+          {output && (
+            <a
+              href={`data:text/plain;charset=utf-8,${encodeURIComponent(
+                output
+              )}`}
+              download="output.sql"
+              className={styles.download}
+            >
+              Download SQL
+            </a>
+          )}
         </div>
-        <div>
-          {statements ? <pre>{statements.join("\n\r")}</pre> : <p>No data</p>}
-        </div>
+        {output && <textarea className={styles.textarea} value={output} />}
       </section>
     </main>
   );
