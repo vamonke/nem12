@@ -4,6 +4,12 @@ export interface MeterReading {
   value: number;
 }
 
+export function generateInsertStatements(meterReadings: MeterReading[]) {
+  return meterReadings.map(({ nmi, timestamp, value }) => {
+    return `INSERT INTO meter_readings (nmi, timestamp, value) VALUES ('${nmi}', '${timestamp.toISOString()}', ${value});`;
+  });
+}
+
 /*
 {
   [nmi]: {
