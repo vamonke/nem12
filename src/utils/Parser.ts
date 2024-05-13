@@ -1,15 +1,17 @@
 import { RECORD_INDICATOR } from "@/constants";
 import {
   Nem12End,
-  Nem12File,
   Nem12Header,
   Nem12IntervalData,
   Nem12NmiDataDetails,
-  StringParser,
 } from "../types";
 import { parseDate12, parseDate8 } from "./parseDate";
+import { Nem12File } from "./Nem12File";
 
-export class Nem12Parser implements StringParser<Nem12File> {
+/**
+ * A class that contains methods for parsing NEM12 CSV strings.
+ */
+export class Nem12Parser {
   /**
    * Parses a NEM12 header line.
    *
@@ -74,6 +76,7 @@ export class Nem12Parser implements StringParser<Nem12File> {
       intervalData: [],
     };
   }
+
   /**
    * Parses a NEM12 interval data record.
    *
@@ -97,7 +100,7 @@ export class Nem12Parser implements StringParser<Nem12File> {
     return {
       recordIndicator: parseInt(recordIndicator),
       intervalDate: parseDate8(intervalDate),
-      intervalValues: intervalValues.map((value) => parseFloat(value)),
+      intervalValues: intervalValues.map((value) => Number.parseFloat(value)),
     };
   }
 
@@ -133,26 +136,22 @@ export class Nem12Parser implements StringParser<Nem12File> {
     const header = Nem12Parser.parseHeader(lines[0]);
     const end = Nem12Parser.parseEnd(lines[lines.length - 1]);
 
-    const nmiData = [];
+    const data = [];
     let i = 1;
     while (i < lines.length) {
       if (lines[i].startsWith(RECORD_INDICATOR.NMI_DATA_DETAILS)) {
-        nmiData.push(Nem12Parser.parseNmiDataDetails(lines[i]));
+        data.push(Nem12Parser.parseNmiDataDetails(lines[i]));
       } else if (lines[i].startsWith(RECORD_INDICATOR.INTERVAL_DATA)) {
-        nmiData[nmiData.length - 1].intervalData.push(
+        data[data.length - 1].intervalData.push(
           Nem12Parser.parseIntervalData(
             lines[i],
-            nmiData[nmiData.length - 1].intervalLength
+            data[data.length - 1].intervalLength
           )
         );
       }
       i++;
     }
 
-    return {
-      header,
-      data: nmiData,
-      end,
-    };
+    return new Nem12File({ header, data, end });
   }
 }

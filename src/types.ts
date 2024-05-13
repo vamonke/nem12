@@ -1,13 +1,3 @@
-export interface StringParser<T> {
-  // parse(content: string): T;
-}
-
-export interface Nem12File {
-  header: Nem12Header;
-  data: Nem12NmiDataDetails[];
-  end: Nem12End;
-}
-
 export interface Nem12Header {
   recordIndicator: number; // 100
   versionHeader: string;
