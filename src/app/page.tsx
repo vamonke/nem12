@@ -4,9 +4,13 @@ import styles from "./page.module.css";
 import { parseCSV } from "@/lib/csv";
 
 export default function Home() {
-  const [statements, setStatements] = useState<string[] | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [statements, setStatements] = useState<string[] | null>(null); // SQL insert statements
+  const [loading, setLoading] = useState(false); // Loading state
 
+  /**
+   * Handle file upload event
+   * @param event - Change event
+   */
   const handleFileUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -18,9 +22,10 @@ export default function Home() {
         setStatements(parsedData);
       } catch (error) {
         console.error("Error parsing CSV file:", error);
-        alert("Error parsing CSV file. Please select a valid NEM12 CSV file.");
+        alert("Failed to process file. Please select a valid NEM12 CSV file.");
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     } else {
       console.log("No file selected");
     }
@@ -31,10 +36,16 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <h1>NEM12 CSV Parser</h1>
-      <section className={styles.section}>
+      <section>
+        <h1 className={styles.header}>NEM12 CSV Parser</h1>
+        <p>
+          Upload your NEM12 CSV file to automatically parse and generate SQL
+          insert statements for your meter readings database.
+        </p>
+      </section>
+      <section className={styles.upload}>
         <div className={styles.actions}>
-          {hasOutput ? (
+          {hasOutput && (
             <>
               <button onClick={() => setStatements(null)}>Clear</button>
               <button
@@ -55,17 +66,16 @@ export default function Home() {
                 Download SQL
               </a>
             </>
-          ) : (
-            <input type="file" onChange={handleFileUpload} accept=".csv" />
+          )}
+          {!hasOutput && (
+            <input
+              type="file"
+              onChange={handleFileUpload}
+              accept=".csv"
+              disabled={loading}
+            />
           )}
         </div>
-        {loading && !hasOutput && (
-          <textarea
-            className={styles.textarea}
-            value={"Parsing CSV..."}
-            readOnly
-          />
-        )}
         {hasOutput && (
           <textarea className={styles.textarea} value={output} readOnly />
         )}

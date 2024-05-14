@@ -1,5 +1,4 @@
 import { Nem12File } from "./Nem12File";
-import { preciseAdd } from "@/lib/math";
 
 describe("Nem12File", () => {
   let nem12File: Nem12File;

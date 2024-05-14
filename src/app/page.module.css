@@ -6,7 +6,12 @@
   height: 100vh;
 }
 
-.section {
+.header {
+  font-size: 2rem;
+  padding: 0 0 0.5rem;
+}
+
+.upload {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
@@ -21,10 +26,6 @@
   border: 1px solid #333;
   padding: 1rem;
   box-sizing: border-box;
-}
-
-.input {
-  padding: 2rem 0;
 }
 
 .actions {

@@ -33,6 +33,5 @@ export function formatDate(date: Date) {
   const day = pad(date.getDate());
   const hours = pad(date.getHours());
   const minutes = pad(date.getMinutes());
-
   return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
