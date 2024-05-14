@@ -1,4 +1,5 @@
 import { formatTimestamp, parseDate8 } from "./parseDate";
+import { preciseAdd } from "./math";
 
 class Nem12File {
   records: { [key: string]: NmiRecord };
@@ -87,6 +88,7 @@ class Nem12File {
 
     // Create interval data if it doesn't exist
     if (!nmiRecord.intervals[intervalDate]) {
+      ``;
       nmiRecord.intervals[intervalDate] = {
         intervalDate,
         consumptionValues: new Array(consumptionValues.length).fill(0),
@@ -94,8 +96,12 @@ class Nem12File {
     }
 
     // Add consumption values to existing values
+    const intervalData = nmiRecord.intervals[intervalDate];
     consumptionValues.forEach((value, i) => {
-      nmiRecord.intervals[intervalDate].consumptionValues[i] += value;
+      intervalData.consumptionValues[i] = preciseAdd(
+        intervalData.consumptionValues[i],
+        value
+      );
     });
   }
 
