@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import styles from "./page.module.css";
-import { parseCSV } from "@/utils/csv";
+import { parseCSV } from "@/lib/csv";
 
 export default function Home() {
   const [statements, setStatements] = useState<string[] | null>(null);

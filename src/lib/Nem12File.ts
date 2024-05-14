@@ -1,5 +1,5 @@
-import { formatTimestamp, parseDate8 } from "./parseDate";
-import { preciseAdd } from "./math";
+import { formatDate, parseDate8 } from "@/lib/date";
+import { preciseAdd } from "@/lib/math";
 
 class Nem12File {
   records: { [key: string]: NmiRecord };
@@ -153,7 +153,7 @@ class NmiRecord {
         statements.push(
           `INSERT INTO meter_readings (nmi, timestamp, consumption) VALUES ('${
             this.nmi
-          }', '${formatTimestamp(timestamp)}', ${consumption});`
+          }', '${formatDate(timestamp)}', ${consumption});`
         );
       });
     }

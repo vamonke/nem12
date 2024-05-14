@@ -23,6 +23,16 @@ export function parseDate8(dateStr: string) {
   return new Date(year, month, day);
 }
 
-export function formatTimestamp(date: Date) {
-  return date.toISOString().slice(0, 19).replace("T", " ");
+function pad(num: number): string {
+  return (num < 10 ? "0" : "") + num;
+}
+
+export function formatDate(date: Date) {
+  const year = date.getFullYear();
+  const month = pad(date.getMonth() + 1);
+  const day = pad(date.getDate());
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+
+  return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
