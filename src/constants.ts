@@ -1,6 +1,0 @@
-export const RECORD_INDICATOR = {
-  HEADER: "100",
-  NMI_DATA_DETAILS: "200",
-  INTERVAL_DATA: "300",
-  END: "900",
-};
