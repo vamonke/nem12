@@ -1,22 +1,7 @@
 "use client";
 import { useState } from "react";
-import { Nem12File } from "@/utils/Nem12File";
 import styles from "./page.module.css";
-
-async function parseCSV(file: File) {
-  const reader = new FileReader();
-  return new Promise<string[]>((resolve, reject) => {
-    reader.onload = (event) => {
-      const csvData = event.target?.result as string;
-      const results = Nem12File.fromCsv(csvData).toSqlInsertStatements();
-      resolve(results);
-    };
-    reader.onerror = (event) => {
-      reject(event.target?.error);
-    };
-    reader.readAsText(file);
-  });
-}
+import { parseCSV } from "@/utils/csv";
 
 export default function Home() {
   const [statements, setStatements] = useState<string[] | null>(null);
@@ -31,6 +16,7 @@ export default function Home() {
         setStatements(parsedData);
       } catch (error) {
         console.error("Error parsing CSV file:", error);
+        alert("Error parsing CSV file. Please select a valid NEM12 CSV file.");
       }
     } else {
       console.log("No file selected");
@@ -71,7 +57,9 @@ export default function Home() {
             </a>
           )}
         </div>
-        {output && <textarea className={styles.textarea} value={output} />}
+        {output && (
+          <textarea className={styles.textarea} value={output} readOnly />
+        )}
       </section>
     </main>
   );
